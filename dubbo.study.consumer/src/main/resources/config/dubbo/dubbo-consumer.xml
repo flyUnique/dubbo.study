@@ -12,7 +12,15 @@
 
     <!-- 生成远程服务代理，可以和本地bean一样使用demoService -->
     <!-- url : 直连provider 暴露服务端口 -->
-    <!--<dubbo:reference id="demoService" interface="com.cfoom.service.DemoService" url="dubbo://localhost:20880"/>-->
+    <!-- check: 服务发布检查 -->
+    <!-- retries ：重试次数 -->
+    <!-- version ： 版本，可以多版本同时存在，引用需指定版本或* -->
+    <!-- cache ：客户端缓存 lru threadlocal jcache -->
+    <!-- async : 异步调用 callable RpcContext.getContext().getFuture() -->
+    <dubbo:reference id="demoService" interface="com.cfoom.service.DemoService">
+        <!-- oninvoke onreturn onthrow -->
+        <dubbo:method name="sayHello" async="true" onreturn="eventHandler.onReturn"  />
+    </dubbo:reference>
 
     <!-- 使用注解 -->
     <dubbo:annotation package="com.cfoom.consumer.web"/>

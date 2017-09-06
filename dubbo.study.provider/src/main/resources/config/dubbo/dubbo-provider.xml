@@ -17,10 +17,19 @@
     <!--<dubbo:protocol name="dubbo" port="20880" />-->
 
     <!-- 声明需要暴露的服务接口 -->
-    <!--<dubbo:service interface="com.cfoom.service.DemoService" ref="demoService" />-->
+    <dubbo:service interface="com.cfoom.service.DemoService" ref="demoService" />
+    <!-- 回调函数配置 -->
+    <dubbo:service interface="com.cfoom.service.CallbackService" ref="callbackService" connections="1" callbacks="1000">
+        <dubbo:method name="addListener">
+            <!--<dubbo:argument index="1" callback="true" />-->
+            <!--也可以通过指定类型的方式-->
+            <dubbo:argument type="com.cfoom.service.CallbackListener" callback="true" />
+        </dubbo:method>
+    </dubbo:service>
 
     <!-- 和本地bean一样实现服务 -->
-    <!--<bean id="demoService" class="com.cfoom.provider.service.impl.DemoServiceImpl" />-->
+    <bean id="demoService" class="com.cfoom.provider.service.impl.DemoServiceImpl" />
+    <bean id="callbackService" class="com.cfoom.provider.service.impl.CallbackServiceImpl" />
 
     <!-- 启用注解 -->
     <dubbo:annotation />
